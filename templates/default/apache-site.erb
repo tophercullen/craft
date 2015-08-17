@@ -1,0 +1,134 @@
+<IfModule mpm_prefork_module>
+        ServerLimit          5000
+        StartServers          2
+        MinSpareServers       6
+        MaxSpareServers      12
+        MaxClients           2000
+        MaxRequestsPerChild  6000
+</IfModule>
+
+ExtendedStatus On
+
+<VirtualHost *:<%= @http_port || node['apache']['listen_ports'].first %>>
+  ServerName <%= @server_name %>
+  <% if @server_aliases -%>
+  ServerAlias <%= @server_aliases.join " " %>
+  <% end -%>
+  DocumentRoot <%= @docroot %>
+
+  <Directory <%= @docroot %>>
+    Options <%= [@directory_options || "FollowSymLinks" ].flatten.join " " %>
+    AllowOverride <%= [@allow_override || "None" ].flatten.join " " %>
+  <% if node['apache']['version'] == '2.4' -%>
+    Require all granted
+  <% else -%>
+    Order allow,deny
+    Allow from all
+  <% end -%>
+  </Directory>
+
+  <Directory />
+    Options FollowSymLinks
+    AllowOverride None
+  </Directory>
+
+  <Location /server-status>
+    SetHandler server-status
+
+  <% if node['apache']['version'] == '2.4' -%>
+    Require local
+  <% else -%>
+    Order Deny,Allow
+    Deny from all
+    Allow from 127.0.0.1
+    Allow from localhost
+  <% end -%>
+
+  </Location>
+
+  RewriteEngine On
+  <%- if node['apache']['version'] == '2.4' -%>
+  LogLevel info rewrite:trace1
+  <%- else -%>
+  LogLevel info
+  RewriteLog <%= node['apache']['log_dir'] %>/<%= @name %>-rewrite.log
+  RewriteLogLevel 0
+  <%- end -%>
+
+  ErrorLog <%= node['apache']['log_dir'] %>/<%= @name %>-error.log
+  CustomLog <%= node['apache']['log_dir'] %>/<%= @name %>-access.log combined
+
+  <% if @directory_index -%>
+  DirectoryIndex <%= [@directory_index].flatten.join " " %>
+  <% end -%>
+
+  RewriteCond %{DOCUMENT_ROOT}/system/maintenance.html -f
+  RewriteCond %{SCRIPT_FILENAME} !maintenance.html
+  RewriteRule ^.*$ /system/maintenance.html [L,R=503]
+
+</VirtualHost>
+<% if @https_port -%>
+
+<VirtualHost *:<%= @https_port %>>
+  ServerName <%= @server_name %>
+  <% if @server_aliases -%>
+  ServerAlias <%= @server_aliases.join " " %>
+  <% end -%>
+  SSLEngine on
+  SSLCertificateFile "<%= @ssl_crt %>"
+  SSLCertificateKeyFile "<%= @ssl_key %>"
+  SSLCipherSuite HIGH:!aNULL:!MD5
+  SSLProtocol +TLSv1 +TLSv1.1 +TLSv1.2
+  DocumentRoot <%= @docroot %>
+
+  <Directory <%= @docroot %>>
+    Options <%= [@directory_options || "FollowSymLinks" ].flatten.join " " %>
+    AllowOverride <%= [@allow_override || "None" ].flatten.join " " %>
+  <% if node['apache']['version'] == '2.4' -%>
+    Require all granted
+  <% else -%>
+    Order allow,deny
+    Allow from all
+  <% end -%>
+  </Directory>
+
+  <Directory />
+    Options FollowSymLinks
+    AllowOverride None
+  </Directory>
+
+  <Location /server-status>
+    SetHandler server-status
+
+  <% if node['apache']['version'] == '2.4' -%>
+    Require local
+  <% else -%>
+    Order Deny,Allow
+    Deny from all
+    Allow from 127.0.0.1
+    Allow from localhost
+  <% end -%>
+
+  </Location>
+
+  RewriteEngine On
+  <%- if node['apache']['version'] == '2.4' -%>
+  LogLevel info rewrite:trace1
+  <%- else -%>
+  LogLevel info
+  RewriteLog <%= node['apache']['log_dir'] %>/<%= @name %>-rewrite.log
+  RewriteLogLevel 0
+  <%- end -%>
+
+  ErrorLog <%= node['apache']['log_dir'] %>/<%= @name %>-error.log
+  CustomLog <%= node['apache']['log_dir'] %>/<%= @name %>-access.log combined
+
+  <% if @directory_index -%>
+  DirectoryIndex <%= [@directory_index].flatten.join " " %>
+  <% end -%>
+
+  RewriteCond %{DOCUMENT_ROOT}/system/maintenance.html -f
+  RewriteCond %{SCRIPT_FILENAME} !maintenance.html
+  RewriteRule ^.*$ /system/maintenance.html [L,R=503]
+</VirtualHost>
+<% end %>

@@ -1,0 +1,16 @@
+name             'craft'
+maintainer       'Topher Cullen'
+maintainer_email 'Topher.Cullen@jamberry.com'
+license          'Apache 2.0'
+description      'Installs/Configures craft'
+long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
+version          '0.1.0'
+
+supports 'ubuntu', '>= 10.04'
+supports 'debian', '>= 6.0'
+supports 'redhat', '>= 5.0'
+supports 'centos', '>= 5.0'
+supports 'oracle', '>= 5.0'
+depends 'apache2'
+depends 'maven'
+depends 'ark'
