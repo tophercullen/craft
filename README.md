@@ -20,7 +20,7 @@ Default version is a combination of major and minor versions.
 Craft home directly for all things craft
   * `default['craft']['craft_home']`
 
-Set to true if you want to write out a craft license
+Set to true if you want to write out a craft license. The included license file is blank. 
   * `default['craft']['license']`
 
 ### DB

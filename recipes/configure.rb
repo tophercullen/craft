@@ -27,7 +27,6 @@ template "#{craft_home}/craft/config/db.php" do
   notifies :restart, "service[apache2]", :delayed
 end
 
-#this file managed by dev, but create if its not present
 template "#{craft_home}/craft/config/general.php" do
   source "general.php.erb"
   owner "root"
