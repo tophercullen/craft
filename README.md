@@ -7,7 +7,6 @@ Requirements
 ------------
 The following cookbooks are required
   * 'apache2'
-  * 'maven'
   * 'ark'
 
 Attributes
