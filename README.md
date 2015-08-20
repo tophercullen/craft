@@ -16,16 +16,20 @@ Attributes
 Default version is a combination of major and minor versions. 
   * `default['craft']['install']['version']['major']`
   * `default['craft']['install']['version']['minor']`
+
 Craft home directly for all things craft
   * `default['craft']['craft_home']`
+
 Set to true if you want to write out a craft license
   * `default['craft']['license']`
+
 ### DB
   * `default['craft']['db']['host']`
   * `default['craft']['db']['user']`
   * `default['craft']['db']['password']`
   * `default['craft']['db']['database']`
   * `default['craft']['db']['prefix']`
+
 ##Apache
 Defines listening ports and a cert. A self-signed cert will be created if it doesn't exist
   * `default['craft']['ports']['http_port']`
