@@ -1,45 +1,39 @@
 craft Cookbook
 ==============
-TODO: Enter the cookbook description here.
+Installs and configures Craft CMS
 
-e.g.
-This cookbook makes your favorite breakfast sandwich.
 
 Requirements
 ------------
-TODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.
-
-e.g.
-#### packages
-- `toaster` - craft needs toaster to brown your bagel.
+The following cookbooks are required
+  * 'apache2'
+  * 'maven'
+  * 'ark'
 
 Attributes
 ----------
-TODO: List your cookbook attributes here.
-
-e.g.
-#### craft::default
-<table>
-  <tr>
-    <th>Key</th>
-    <th>Type</th>
-    <th>Description</th>
-    <th>Default</th>
-  </tr>
-  <tr>
-    <td><tt>['craft']['bacon']</tt></td>
-    <td>Boolean</td>
-    <td>whether to include bacon</td>
-    <td><tt>true</tt></td>
-  </tr>
-</table>
+#### Install
+Default version is a combination of major and minor versions. 
+  * `default['craft']['install']['version']['major']`
+  * `default['craft']['install']['version']['minor']`
+Craft home directly for all things craft
+  * `default['craft']['craft_home']`
+Set to true if you want to write out a craft license
+  * `default['craft']['license']`
+### DB
+  * `default['craft']['db']['host']`
+  * `default['craft']['db']['user']`
+  * `default['craft']['db']['password']`
+  * `default['craft']['db']['database']`
+  * `default['craft']['db']['prefix']`
+##Apache
+Defines listening ports and a cert. A self-signed cert will be created if it doesn't exist
+  * `default['craft']['ports']['http_port']`
+  * `default['craft']['ports']['https_port']`
+  * `default['craft']['cert']`
 
 Usage
 -----
-#### craft::default
-TODO: Write usage instructions for each cookbook.
-
-e.g.
 Just include `craft` in your node's `run_list`:
 
 ```json
@@ -53,9 +47,6 @@ Just include `craft` in your node's `run_list`:
 
 Contributing
 ------------
-TODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.
-
-e.g.
 1. Fork the repository on Github
 2. Create a named feature branch (like `add_component_x`)
 3. Write your change
@@ -65,4 +56,9 @@ e.g.
 
 License and Authors
 -------------------
-Authors: TODO: List authors
+Authors: Topher Cullen (topher.cullen@jamberry.com)
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
